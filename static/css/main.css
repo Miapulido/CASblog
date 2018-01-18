@@ -1,0 +1,28 @@
+h1 {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif; /* https://www.w3schools.com/cssref/css_websafe_fonts.asp */
+  color: pink;
+}
+
+.col {
+  padding: 50px;
+}
+
+.col img {
+  width: 250px;
+}
+
+.not_first_row {
+  margin-top: 50px;
+}
+
+img {
+  opacity: 1
+}
+
+img:hover {
+  opacity: .8
+}
+
+.hidden {
+  display: none
+}

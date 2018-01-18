@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>CREATIVITY: Hello, World!</h1>
+  {% set num_of_columns = 3 %}
+  {% for row_num in range(2) %}
+    <div class="row {% if row_num != 0 %}not_first_row{% endif %}">
+      {% for col_num in range(num_of_columns) %}
+        {% set curr_i = (row_num*num_of_columns) + col_num + 1 %}
+        <div class="col-sm">
+          <div class="card">
+            <a href="/post/{{curr_i}}"><img class="card-img-top" src="https://www.ucf.edu/pegasus/files/2017/06/PegasusHomepage_Header-1600x900-su17-Creativity2.jpg" /></a>
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="/post/{{curr_i}}" class="btn btn-outline-primary">Read more</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}
