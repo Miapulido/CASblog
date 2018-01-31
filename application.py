@@ -22,10 +22,12 @@ def home():
     posts_info = conn_c.fetchall()
 
     num_of_columns = 3
-    num_of_rows = int(math.ceil(float(len(posts_info))/num_of_columns))
+    num_of_posts = float(len(posts_info))
 
-    return render_template('home.html', posts_info=posts_info, num_of_posts=len(posts_info),
-                                        num_of_columns=num_of_columns, num_of_rows=num_of_rows)
+    num_of_placeholders = int((num_of_columns*math.ceil(num_of_posts/num_of_columns)) - num_of_posts)
+
+    return render_template('home.html', posts_info=posts_info, num_of_posts=num_of_posts,
+                                        num_of_columns=num_of_columns, num_of_placeholders=num_of_placeholders)
 
 @app.route('/creativity')
 def creativity():
