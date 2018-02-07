@@ -12,11 +12,21 @@ def get_db_connection():
     conn_c = conn.cursor()
     return conn_c
 
-def lookup_posts_for_template():
+def lookup_posts_for_template(category_name):
     import math
 
     conn_c = get_db_connection()
-    conn_c.execute('SELECT * FROM posts ORDER BY post_date DESC')
+
+    posts_query = 'SELECT * FROM posts p'
+    if category_name != 'home':
+        posts_query += ' INNER JOIN post_categories pc ON p.post_id = pc.post_id AND pc.category = ?'
+    posts_query += ' ORDER BY post_date DESC'
+
+    if category_name != 'home':
+        conn_c.execute(posts_query, (category_name,))
+    else:
+        conn_c.execute(posts_query)
+
     posts_info = conn_c.fetchall()
 
     num_of_columns = 3
@@ -33,7 +43,7 @@ def lookup_posts_for_template():
 
 @app.route('/')
 def home():
-    for_template = lookup_posts_for_template()
+    for_template = lookup_posts_for_template('home')
     return render_template('home.html', posts_info=for_template['posts_info']
                                       , num_of_posts=for_template['num_of_posts']
                                       , num_of_columns=for_template['num_of_columns']
@@ -41,7 +51,7 @@ def home():
 
 @app.route('/creativity')
 def creativity():
-    for_template = lookup_posts_for_template()
+    for_template = lookup_posts_for_template('creativity')
     return render_template('creativity.html', posts_info=for_template['posts_info']
                                             , num_of_posts=for_template['num_of_posts']
                                             , num_of_columns=for_template['num_of_columns']
@@ -49,7 +59,7 @@ def creativity():
 
 @app.route('/activity')
 def action():
-    for_template = lookup_posts_for_template()
+    for_template = lookup_posts_for_template('activity')
     return render_template('activity.html', posts_info=for_template['posts_info']
                                           , num_of_posts=for_template['num_of_posts']
                                           , num_of_columns=for_template['num_of_columns']
@@ -57,7 +67,7 @@ def action():
 
 @app.route('/service')
 def service():
-    for_template = lookup_posts_for_template()
+    for_template = lookup_posts_for_template('service')
     return render_template('service.html', posts_info=for_template['posts_info']
                                          , num_of_posts=for_template['num_of_posts']
                                          , num_of_columns=for_template['num_of_columns']
@@ -68,14 +78,19 @@ def post(post_id):
     # posts = ['this is the text for post 0', 'this is the text for post 1', 'this is the text for post 2']
     # return render_template('post.html', post_text=posts[int(post_id)])
     conn_c = get_db_connection()
-    conn_c.execute('SELECT * FROM posts WHERE post_id=?', (post_id,))
 
+    conn_c.execute('SELECT * FROM posts WHERE post_id=?', (post_id,))
     post_info = conn_c.fetchone()
+
+    conn_c.execute('SELECT * FROM post_images WHERE post_id=? ORDER BY img_order', (post_id,))
+    imgs_info = conn_c.fetchall()
+    num_imgs  = len(imgs_info)
 
     return render_template('post.html', post_text=post_info['post_text'],
                                         post_title=post_info['post_title'],
                                         post_date=post_info['post_date'],
-                                        post_img_name=post_info['post_img_name'])
+                                        post_imgs=imgs_info,
+                                        num_imgs=num_imgs)
 
     # test = ('This', 'image_1.png')
     # test[0]
