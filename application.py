@@ -12,34 +12,56 @@ def get_db_connection():
     conn_c = conn.cursor()
     return conn_c
 
-@app.route('/')
-def home():
+def lookup_posts_for_template():
     import math
 
     conn_c = get_db_connection()
-
     conn_c.execute('SELECT * FROM posts ORDER BY post_date DESC')
     posts_info = conn_c.fetchall()
 
     num_of_columns = 3
     num_of_posts = float(len(posts_info))
-
     num_of_placeholders = int((num_of_columns*math.ceil(num_of_posts/num_of_columns)) - num_of_posts)
 
-    return render_template('home.html', posts_info=posts_info, num_of_posts=num_of_posts,
-                                        num_of_columns=num_of_columns, num_of_placeholders=num_of_placeholders)
+    for_template = {}
+    for_template['posts_info']          = posts_info
+    for_template['num_of_columns']      = num_of_columns
+    for_template['num_of_posts']        = num_of_posts
+    for_template['num_of_placeholders'] = num_of_placeholders
+
+    return for_template
+
+@app.route('/')
+def home():
+    for_template = lookup_posts_for_template()
+    return render_template('home.html', posts_info=for_template['posts_info']
+                                      , num_of_posts=for_template['num_of_posts']
+                                      , num_of_columns=for_template['num_of_columns']
+                                      , num_of_placeholders=for_template['num_of_placeholders'])
 
 @app.route('/creativity')
 def creativity():
-    return render_template('creativity.html')
+    for_template = lookup_posts_for_template()
+    return render_template('creativity.html', posts_info=for_template['posts_info']
+                                            , num_of_posts=for_template['num_of_posts']
+                                            , num_of_columns=for_template['num_of_columns']
+                                            , num_of_placeholders=for_template['num_of_placeholders'])
 
 @app.route('/activity')
 def action():
-    return render_template('activity.html')
+    for_template = lookup_posts_for_template()
+    return render_template('activity.html', posts_info=for_template['posts_info']
+                                          , num_of_posts=for_template['num_of_posts']
+                                          , num_of_columns=for_template['num_of_columns']
+                                          , num_of_placeholders=for_template['num_of_placeholders'])
 
 @app.route('/service')
 def service():
-    return render_template('service.html')
+    for_template = lookup_posts_for_template()
+    return render_template('service.html', posts_info=for_template['posts_info']
+                                         , num_of_posts=for_template['num_of_posts']
+                                         , num_of_columns=for_template['num_of_columns']
+                                         , num_of_placeholders=for_template['num_of_placeholders'])
 
 @app.route('/post/<post_id>')
 def post(post_id):

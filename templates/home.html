@@ -2,30 +2,4 @@
 {% block content %}
   <h1>HOME: Hello, World!</h1>
   <div><p>Put info here...</p></div>
-  {% for post in posts_info %}
-    {% set post_num = loop.index - 1 %}
-    {% if post_num%num_of_columns == 0 %}
-      {% if post_num != 0 %}
-        </div>
-      {% endif %}
-      <div class="row {% if post_num != 0 %}not_first_row{% endif %}">
-    {% endif %}
-    <div class="col-sm">
-      <div class="card">
-        <a href="/post/{{post['post_id']}}"><img class="card-img-top" src="static/img/{{post['post_img_name']}}" /></a>
-        <div class="card-body">
-          <p class="card-text">{{post['post_title']}}</p>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="/post/{{post['post_id']}}" class="btn btn-outline-primary">Read more {{col_num}} {{num_of_columns_this_row}}</a>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
-  {% if num_of_placeholders > 0 %}
-    {% for col_num in range(num_of_placeholders) %}
-      <div class="col-sm">
-      </div>
-    {% endfor %}
-  {% endif %}
-  </div>
 {% endblock %}
