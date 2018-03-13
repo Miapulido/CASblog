@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h1>POST title: {{ post_title }}</h1>
+  <h1 class="post_h1">{{ post_title }}</h1>
+  <br/>
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       {% for i in range(num_imgs) %}
@@ -23,7 +24,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  <p>post text: {{ post_text }}</p>
+  <p class="post_p">{{ post_text }}</p>
 {% endblock %}
 {% block grid %}
 {% endblock %}

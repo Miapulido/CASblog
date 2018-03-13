@@ -28,3 +28,22 @@ img:hover {
 .hidden {
   display: none
 }
+
+.post_p {
+  text-align: justify;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.post_h1 {
+  margin-left: 100px;
+}
+
+.content_body {
+  margin: 20px;
+}
+
+#carouselExampleIndicators {
+  float: right;
+  width: 600px;
+}

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from flask import request
 
 app = Flask(__name__)
 
@@ -12,18 +13,22 @@ def get_db_connection():
     conn_c = conn.cursor()
     return conn_c
 
-def lookup_posts_for_template(category_name):
+def lookup_posts_for_template(category_name, query=None):
     import math
 
     conn_c = get_db_connection()
 
     posts_query = 'SELECT * FROM posts p'
-    if category_name != 'home':
+    if category_name not in ['home', 'search']:
         posts_query += ' INNER JOIN post_categories pc ON p.post_id = pc.post_id AND pc.category = ?'
+    if category_name == 'search':
+        posts_query += ' WHERE post_text LIKE ?'
     posts_query += ' ORDER BY post_date DESC'
 
-    if category_name != 'home':
+    if category_name not in ['home', 'search']:
         conn_c.execute(posts_query, (category_name,))
+    elif category_name == 'search':
+        conn_c.execute(posts_query, ('%' + query + '%',))
     else:
         conn_c.execute(posts_query)
 
@@ -72,6 +77,15 @@ def service():
                                          , num_of_posts=for_template['num_of_posts']
                                          , num_of_columns=for_template['num_of_columns']
                                          , num_of_placeholders=for_template['num_of_placeholders'])
+
+@app.route('/search')
+def search():
+    query = request.args.get('q')
+    for_template = lookup_posts_for_template('search', query)
+    return render_template('search.html', posts_info=for_template['posts_info']
+                                        , num_of_posts=for_template['num_of_posts']
+                                        , num_of_columns=for_template['num_of_columns']
+                                        , num_of_placeholders=for_template['num_of_placeholders'])
 
 @app.route('/post/<post_id>')
 def post(post_id):
