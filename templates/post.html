@@ -24,7 +24,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  <p class="post_p">{{ post_text }}</p>
+  <div class="post_p">{{ post_text|safe }}</div>
 {% endblock %}
 {% block grid %}
 {% endblock %}

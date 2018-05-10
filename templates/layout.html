@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <!-- Our CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 </head>
   <body>
     <h1 class="title_h1">Mia's CAS project</h1>
@@ -25,7 +26,10 @@
         <a class="nav-link" href="/service">SERVICE</a>
       </li>
       <li class="nav-item">
-        <input type="text" class="input_search" placeholder="Search for...">
+        <div style="padding: .5rem 1rem;">
+          <i class="fas fa-search" style="position: absolute; margin-left: 5px; margin-top: 5px;"></i>
+          <input type="text" class="input_search" style="border: none; width: 150px" placeholder="________________">
+        </div>
       </li>
     </ul>
     <div class="content_body">
@@ -45,7 +49,7 @@
               <a href="/post/{{post['post_id']}}"><img class="card-img-top" src="static/img/{{post['post_img_name']}}" /></a>
               <div class="card-body">
                 <p class="card-text">{{post['post_title']}}</p>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">{{post['post_text']|striptags|truncate(150, False, '...', 0)}}</p>
                 <a href="/post/{{post['post_id']}}" class="btn btn-outline-primary">Read more {{col_num}} {{num_of_columns_this_row}}</a>
               </div>
             </div>
