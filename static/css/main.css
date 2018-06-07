@@ -19,7 +19,7 @@ h1 {
 img {
   opacity: 1;
   object-fit: contain;
-  height: 200px;
+  /* height: 200px; */
 }
 
 img:hover {

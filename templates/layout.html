@@ -8,7 +8,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <!-- Our CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/component.css') }}">
   <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/imagesloaded.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/masonry.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/classie.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/modernizr.custom.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/cbpGridGallery.js') }}"></script>
 </head>
   <body>
     <h1 class="title_h1">Mia's CAS project</h1>
@@ -35,34 +41,28 @@
     <div class="content_body">
       {% block content %}
       {% endblock %}
-      {% block grid %}
-        {% for post in posts_info %}
-          {% set post_num = loop.index - 1 %}
-          {% if post_num%num_of_columns == 0 %}
-            {% if post_num != 0 %}
-              </div>
-            {% endif %}
-            <div class="row {% if post_num != 0 %}not_first_row{% endif %}">
-          {% endif %}
-          <div class="col-sm">
-            <div class="card">
-              <a href="/post/{{post['post_id']}}"><img class="card-img-top" src="static/img/{{post['post_img_name']}}" /></a>
-              <div class="card-body">
-                <p class="card-text">{{post['post_title']}}</p>
-                <p class="card-text">{{post['post_text']|striptags|truncate(150, False, '...', 0)}}</p>
-                <a href="/post/{{post['post_id']}}" class="btn btn-outline-primary">Read more {{col_num}} {{num_of_columns_this_row}}</a>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-        {% if num_of_placeholders > 0 %}
-          {% for col_num in range(num_of_placeholders) %}
-            <div class="col-sm">
-            </div>
-          {% endfor %}
-        {% endif %}
-        </div>
-      {% endblock %}
+      <div id="grid-gallery" class="grid-gallery">
+        <section class="grid-wrap">
+          <ul class="grid">
+            <li class="grid-sizer"></li><!-- for Masonry column width -->
+              {% block grid %}
+                {% for post in posts_info %}
+                  {% set post_num = loop.index - 1 %}
+                  <li>
+            				<figure>
+                      <div class="card">
+                        <a href="/post/{{post['post_id']}}"><img class="card-img-top" src="static/img/{{post['post_img_name']}}" /></a>
+                        <div class="card-body">
+                          <p class="card-text">{{post['post_title']}}</p>
+                          <p class="card-text">{{post['post_text']|striptags|truncate(150, False, '...', 0)}}</p>
+                          <a href="/post/{{post['post_id']}}" class="btn btn-outline-primary">Read more {{col_num}} {{num_of_columns_this_row}}</a>
+                        </div>
+                      </div>
+                    </figure>
+                  </li>
+                {% endfor %}
+        {% endblock %}
+      </div>
     </div>
     <!-- JavaScript for Bootstrap -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -74,6 +74,11 @@
         if (e.which == 13) {
           window.location.replace('http://127.0.0.1:5000/search?q=' + $("input").val())
         }
+      });
+    </script>
+    <script>
+      $(function() {
+    	   new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
       });
     </script>
   </body>
