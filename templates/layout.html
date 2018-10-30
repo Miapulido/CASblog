@@ -53,8 +53,8 @@
                       <div class="card">
                         <a href="/post/{{post['post_id']}}"><img class="card-img-top" src="static/img/{{post['post_img_name']}}" /></a>
                         <div class="card-body">
-                          <p class="card-text">{{post['post_title']}}</p>
-                          <p class="card-text">{{post['post_text']|striptags|truncate(150, False, '...', 0)}}</p>
+                          <p class="card-text pink-bold">{{post['post_title']}}</p>
+                          <a href="/post/{{post['post_id']}}" class="text-link"><p class="card-text">{{post['post_text']|striptags|truncate(150, False, '...', 0)}}</p></a>
                           <a href="/post/{{post['post_id']}}" class="btn btn-outline-primary">Read more {{col_num}} {{num_of_columns_this_row}}</a>
                         </div>
                       </div>
