@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 def get_db_connection():
     import sqlite3
@@ -46,7 +46,7 @@ def lookup_posts_for_template(category_name, query=None):
 
     return for_template
 
-@app.route('/')
+@application.route('/')
 def home():
     for_template = lookup_posts_for_template('home')
     return render_template('home.html', posts_info=for_template['posts_info']
@@ -54,7 +54,7 @@ def home():
                                       , num_of_columns=for_template['num_of_columns']
                                       , num_of_placeholders=for_template['num_of_placeholders'])
 
-@app.route('/creativity')
+@application.route('/creativity')
 def creativity():
     for_template = lookup_posts_for_template('creativity')
     return render_template('creativity.html', posts_info=for_template['posts_info']
@@ -62,7 +62,7 @@ def creativity():
                                             , num_of_columns=for_template['num_of_columns']
                                             , num_of_placeholders=for_template['num_of_placeholders'])
 
-@app.route('/activity')
+@application.route('/activity')
 def action():
     for_template = lookup_posts_for_template('activity')
     return render_template('activity.html', posts_info=for_template['posts_info']
@@ -70,7 +70,7 @@ def action():
                                           , num_of_columns=for_template['num_of_columns']
                                           , num_of_placeholders=for_template['num_of_placeholders'])
 
-@app.route('/service')
+@application.route('/service')
 def service():
     for_template = lookup_posts_for_template('service')
     return render_template('service.html', posts_info=for_template['posts_info']
@@ -78,7 +78,7 @@ def service():
                                          , num_of_columns=for_template['num_of_columns']
                                          , num_of_placeholders=for_template['num_of_placeholders'])
 
-@app.route('/search')
+@application.route('/search')
 def search():
     query = request.args.get('q')
     for_template = lookup_posts_for_template('search', query)
@@ -87,7 +87,7 @@ def search():
                                         , num_of_columns=for_template['num_of_columns']
                                         , num_of_placeholders=for_template['num_of_placeholders'])
 
-@app.route('/post/<post_id>')
+@application.route('/post/<post_id>')
 def post(post_id):
     # posts = ['this is the text for post 0', 'this is the text for post 1', 'this is the text for post 2']
     # return render_template('post.html', post_text=posts[int(post_id)])
@@ -117,8 +117,8 @@ def post(post_id):
 # FROM posts
 # WHERE (length(post_text) - LENGTH(replace(post_text, ' ', '')) + 1) > 2
 
-# @app.route('/hello/')
-# @app.route('/hello/<name>')
+# @application.route('/hello/')
+# @application.route('/hello/<name>')
 # def hello(name=None):
 #     import folium
 #
@@ -136,3 +136,6 @@ def post(post_id):
 #     m_bw_zoomed.save('templates/map.html')
 #
 #     return render_template('hello.html', name=name)
+
+if __name__ == "__main__":
+    application.run()
