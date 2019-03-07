@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import PIL.Image
+import PIL.ImageDraw
 from Tkinter import *
 import math
 
@@ -26,7 +28,25 @@ def calculate_from_input():
     mediums = []
     for i in range(2):
         mediums.append(medium_list_options[medium_lists[i].curselection()[0]])
-    print cal_refracted_angle(incident_angle, mediums[0], mediums[1])
+    refracted_angle = cal_refracted_angle(incident_angle, mediums[0], mediums[1])
+
+    im = PIL.Image.open("white.png")
+    draw = PIL.ImageDraw.Draw(im)
+    width = 1024.0
+    height = 1024.0
+
+    draw.line([(0, height/2),(width, height/2)])
+    draw.line([(width/2, 0),(width/2, height)])
+
+    incident_y = math.tan(math.radians(90-incident_angle))*(width/2)
+    incident_line = [(0, (height/2)-incident_y),(width/2, height/2)]
+    draw.line(incident_line)
+
+    refracted_y = math.tan(math.radians(90-refracted_angle))*(width/2)
+    refracted_line = [(width/2, height/2),(width, (height/2)+refracted_y)]
+    draw.line(refracted_line)
+
+    im.show()
 
 ui = Tk()
 
