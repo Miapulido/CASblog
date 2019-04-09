@@ -37,13 +37,28 @@ def calculate_from_input():
 
     draw.line([(0, height/2),(width, height/2)])
     draw.line([(width/2, 0),(width/2, height)])
-
+    
     incident_y = math.tan(math.radians(90-incident_angle))*(width/2)
     incident_line = [(0, (height/2)-incident_y),(width/2, height/2)]
-    draw.line(incident_line)
+    print 'old'
+    print incident_line
 
+    incident_y = math.tan(math.radians(incident_angle))*(height/2)
+    incident_line = [((width/2)-incident_y, 0),(width/2, height/2)]
+    print 'new'
+    print incident_line
+    
+    draw.line(incident_line)
+    
     refracted_y = math.tan(math.radians(90-refracted_angle))*(width/2)
     refracted_line = [(width/2, height/2),(width, (height/2)+refracted_y)]
+    print 'old'
+    print refracted_line
+
+    refracted_y = math.tan(math.radians(refracted_angle))*(height/2)
+    refracted_line = [(width/2, height/2),((width/2)+refracted_y, height)]
+    print 'new'
+    print refracted_line
     draw.line(refracted_line)
 
     im.show()
