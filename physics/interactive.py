@@ -61,13 +61,12 @@ def calculate_from_input():
 
     refracted_line_mid = ((refracted_line[0][0] + refracted_line[1][0])/2, (refracted_line[0][1] + refracted_line[1][1])/2)
 
-    draw.line([incident_line_mid, (0,0)], fill="black")
-    draw.line([refracted_line_mid, (width,height)], fill="black")
-    # draw.point([incident_line_mid], fill="black")
-    # draw.point([(25,25)], fill="black")
+    diff = 10
+    draw.line([incident_line_mid, (incident_line_mid[0]-diff,incident_line_mid[1]-diff)], fill="black")
+    draw.line([incident_line_mid, (incident_line_mid[0]+diff,incident_line_mid[1]-diff)], fill="black")
 
-    print incident_line
-    print incident_line_mid
+    draw.line([refracted_line_mid, (refracted_line_mid[0]-diff,refracted_line_mid[1]-diff)], fill="black")
+    draw.line([refracted_line_mid, (refracted_line_mid[0]+diff,refracted_line_mid[1]-diff)], fill="black")
 
     im.show()
 
