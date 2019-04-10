@@ -41,14 +41,22 @@ def calculate_from_input():
     draw.line([(0, height/2),(width, height/2)], fill="black")
     draw.line([(width/2, 0),(width/2, height)], fill="black")
 
-    incident_y = math.tan(math.radians(90-incident_angle))*(width/2)
-    incident_line = [(0, (height/2)-incident_y),(width/2, height/2)]
+    if incident_angle < 45:
+        incident_y = math.tan(math.radians(incident_angle))*(height/2)
+        incident_line = [((width/2)-incident_y, 0),(width/2, height/2)]
+    else:
+        incident_y = math.tan(math.radians(90-incident_angle))*(width/2)
+        incident_line = [(0, (height/2)-incident_y),(width/2, height/2)]
     draw.line(incident_line, fill="red")
 
     incident_line_mid = ((incident_line[0][0] + incident_line[1][0])/2.0, (incident_line[0][1] + incident_line[1][1])/2.0)
 
-    refracted_y = math.tan(math.radians(90-refracted_angle))*(width/2)
-    refracted_line = [(width/2, height/2),(width, (height/2)+refracted_y)]
+    if refracted_angle < 45:
+        refracted_y = math.tan(math.radians(refracted_angle))*(height/2)
+        refracted_line = [(width/2, height/2),(width, (height/2)+refracted_y)]
+    else:
+        refracted_y = math.tan(math.radians(90-refracted_angle))*(width/2)
+        refracted_line = [(width/2, height/2),((width/2)+refracted_y, height)]
     draw.line(refracted_line, fill="red")
 
     refracted_line_mid = ((refracted_line[0][0] + refracted_line[1][0])/2, (refracted_line[0][1] + refracted_line[1][1])/2)
