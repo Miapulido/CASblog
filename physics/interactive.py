@@ -51,6 +51,17 @@ def calculate_from_input():
 
     incident_line_mid = ((incident_line[0][0] + incident_line[1][0])/2.0, (incident_line[0][1] + incident_line[1][1])/2.0)
 
+    # incident_line_slope = (incident_line[0][1] - incident_line[1][1])/(incident_line[0][0] - incident_line[1][0])
+    arrow_size = width/32
+    draw.line([(incident_line[0][0] - arrow_size, incident_line[0][1]), (incident_line[1][0] - arrow_size, incident_line[1][1])], fill="blue")
+    draw.line([(incident_line[0][0] + arrow_size, incident_line[0][1]), (incident_line[1][0] + arrow_size, incident_line[1][1])], fill="green")
+
+    incident_line_1_mid = ((incident_line[0][0] - arrow_size + incident_line[1][0] - arrow_size)/2.0, (incident_line[0][1] + incident_line[1][1])/2.0)
+    incident_line_2_mid = ((incident_line[0][0] + arrow_size + incident_line[1][0] + arrow_size)/2.0, (incident_line[0][1] + incident_line[1][1])/2.0)
+
+    draw.line([incident_line_mid, (incident_line_1_mid[0] - (arrow_size/2), incident_line_1_mid[1] - (arrow_size/2))], fill="black")
+    draw.line([incident_line_mid, (incident_line_2_mid[0] - arrow_size, incident_line_2_mid[1] - arrow_size)], fill="black")
+
     if refracted_angle < 45:
         refracted_y = math.tan(math.radians(refracted_angle))*(height/2)
         refracted_line = [(width/2, height/2),(width, (height/2)+refracted_y)]
@@ -61,12 +72,21 @@ def calculate_from_input():
 
     refracted_line_mid = ((refracted_line[0][0] + refracted_line[1][0])/2, (refracted_line[0][1] + refracted_line[1][1])/2)
 
-    diff = 10
-    draw.line([incident_line_mid, (incident_line_mid[0]-diff,incident_line_mid[1]-diff)], fill="black")
-    draw.line([incident_line_mid, (incident_line_mid[0]+diff,incident_line_mid[1]-diff)], fill="black")
+    draw.line([(refracted_line[0][0] - arrow_size, refracted_line[0][1]), (refracted_line[1][0] - arrow_size, refracted_line[1][1])], fill="blue")
+    draw.line([(refracted_line[0][0] + arrow_size, refracted_line[0][1]), (refracted_line[1][0] + arrow_size, refracted_line[1][1])], fill="green")
 
-    draw.line([refracted_line_mid, (refracted_line_mid[0]-diff,refracted_line_mid[1]-diff)], fill="black")
-    draw.line([refracted_line_mid, (refracted_line_mid[0]+diff,refracted_line_mid[1]-diff)], fill="black")
+    refracted_line_1_mid = ((refracted_line[0][0] - arrow_size + refracted_line[1][0] - arrow_size)/2.0, (refracted_line[0][1] + refracted_line[1][1])/2.0)
+    refracted_line_2_mid = ((refracted_line[0][0] + arrow_size + refracted_line[1][0] + arrow_size)/2.0, (refracted_line[0][1] + refracted_line[1][1])/2.0)
+
+    draw.line([refracted_line_mid, (refracted_line_1_mid[0] - (arrow_size/2), refracted_line_1_mid[1] - (arrow_size/2))], fill="black")
+    draw.line([refracted_line_mid, (refracted_line_2_mid[0] - arrow_size, refracted_line_2_mid[1] - arrow_size)], fill="black")
+
+    # diff = 10
+    # draw.line([incident_line_mid, (incident_line_mid[0]-diff,incident_line_mid[1]-diff)], fill="black")
+    # draw.line([incident_line_mid, (incident_line_mid[0]+diff,incident_line_mid[1]-diff)], fill="black")
+    #
+    # draw.line([refracted_line_mid, (refracted_line_mid[0]-diff,refracted_line_mid[1]-diff)], fill="black")
+    # draw.line([refracted_line_mid, (refracted_line_mid[0]+diff,refracted_line_mid[1]-diff)], fill="black")
 
     im.show()
 
